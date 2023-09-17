@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.14</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>org.click.clickweb</groupId>
+    <artifactId>clickweb</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+<!--    子模块路径-->
+    <modules>
+        <module>click-common</module>
+        <module>click-server</module>
+<!--        <module>click-captcha</module>-->
+        <module>click-wx-login</module>
+        <module>click-db</module>
+
+    </modules>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- 统一依赖管理 -->
+        <spring.boot.version>2.7.14</spring.boot.version>
+        <!-- Web 相关 -->
+        <springdoc.version>1.7.0</springdoc.version>
+        <knife4j.version>3.0.3</knife4j.version>
+        <servlet.versoin>2.5</servlet.versoin>
+        <!-- DB 相关 -->
+        <druid.version>1.2.18</druid.version>
+        <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.5.3.2</mybatis-plus-generator.version>
+        <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
+        <mybatis-plus-join.version>1.4.6</mybatis-plus-join.version>
+        <redisson.version>3.18.0</redisson.version>
+        <dm8.jdbc.version>8.1.2.141</dm8.jdbc.version>
+        <!-- 服务保障相关 -->
+        <lock4j.version>2.2.3</lock4j.version>
+        <resilience4j.version>1.7.1</resilience4j.version>
+        <!-- 监控相关 -->
+        <skywalking.version>8.12.0</skywalking.version>
+        <spring-boot-admin.version>2.7.10</spring-boot-admin.version>
+        <opentracing.version>0.33.0</opentracing.version>
+        <!-- Test 测试相关 -->
+        <podam.version>7.2.11.RELEASE</podam.version>
+        <jedis-mock.version>1.0.7</jedis-mock.version>
+        <mockito-inline.version>4.11.0</mockito-inline.version>
+        <!-- Bpm 工作流相关 -->
+        <flowable.version>6.8.0</flowable.version>
+        <!-- 工具类相关 -->
+        <captcha-plus.version>1.0.6</captcha-plus.version>
+        <jsoup.version>1.15.4</jsoup.version>
+        <lombok.version>1.18.28</lombok.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <hutool.version>5.8.20</hutool.version>
+        <easyexcel.verion>3.3.2</easyexcel.verion>
+        <velocity.version>2.3</velocity.version>
+        <screw.version>1.0.5</screw.version>
+        <fastjson.version>2.0.32</fastjson.version>
+        <guava.version>32.0.1-jre</guava.version>
+        <guice.version>5.1.0</guice.version>
+        <transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
+        <commons-net.version>3.9.0</commons-net.version>
+        <jsch.version>0.1.55</jsch.version>
+        <tika-core.version>2.7.0</tika-core.version>
+        <netty-all.version>4.1.90.Final</netty-all.version>
+        <ip2region.version>2.7.0</ip2region.version>
+        <!-- 三方云服务相关 -->
+        <okio.version>3.0.0</okio.version>
+        <okhttp3.version>4.10.0</okhttp3.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <minio.version>8.5.4</minio.version>
+        <aliyun-java-sdk-core.version>4.6.3</aliyun-java-sdk-core.version>
+        <aliyun-java-sdk-dysmsapi.version>2.2.1</aliyun-java-sdk-dysmsapi.version>
+        <tencentcloud-sdk-java.version>3.1.758</tencentcloud-sdk-java.version>
+        <justauth.version>1.0.3</justauth.version>
+        <jimureport.version>1.5.8</jimureport.version>
+        <xercesImpl.version>2.12.2</xercesImpl.version>
+        <weixin-java.version>4.5.0</weixin-java.version>
+    </properties>
+
+    <dependencies>
+
+    </dependencies>
+
+    <!--定义依赖管理-->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Web 相关 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+<!--            DB-->
+
+            <dependency>
+                <groupId>org.click.clickweb</groupId>
+                <artifactId>click-common</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+<!--            工具类相关-->
+<!--            knife4j-->
+<!--            <dependency>-->
+<!--                <groupId>com.github.xiaoymin</groupId>-->
+<!--                <artifactId>knife4j-spring-boot-starter</artifactId>-->
+<!--                <version>4.3.0</version>-->
+<!--            </dependency>-->
+
+<!--            <dependency>-->
+<!--                <groupId>org.projectlombok</groupId>-->
+<!--                <artifactId>lombok</artifactId>-->
+<!--                <version>${lombok.version}</version>-->
+<!--            </dependency>-->
+
+<!--            <dependency>-->
+<!--                <groupId>org.mapstruct</groupId>-->
+<!--                <artifactId>mapstruct</artifactId> &lt;!&ndash; use mapstruct-jdk8 for Java 8 or higher &ndash;&gt;-->
+<!--                <version>${mapstruct.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.mapstruct</groupId>-->
+<!--                <artifactId>mapstruct-jdk8</artifactId>-->
+<!--                <version>${mapstruct.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.mapstruct</groupId>-->
+<!--                <artifactId>mapstruct-processor</artifactId>-->
+<!--                <version>${mapstruct.version}</version>-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba</groupId>-->
+<!--                <artifactId>easyexcel</artifactId>-->
+<!--                <version>${easyexcel.verion}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>commons-io</groupId>-->
+<!--                <artifactId>commons-io</artifactId>-->
+<!--                <version>${commons-io.version}</version>-->
+<!--            </dependency>-->
+
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba</groupId>-->
+<!--                <artifactId>fastjson</artifactId>-->
+<!--                <version>${fastjson.version}</version>-->
+<!--            </dependency>-->
+
+        </dependencies>
+    </dependencyManagement>
+
+<!--&lt;!&ndash;    配置仓库&ndash;&gt;-->
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>huaweicloud</id>-->
+<!--            <name>huawei</name>-->
+<!--            <url>https://mirrors.huaweicloud.com/repository/maven/</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>aliyunmaven</id>-->
+<!--            <name>aliyun</name>-->
+<!--            <url>https://maven.aliyun.com/repository/public</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
+
+</project>
