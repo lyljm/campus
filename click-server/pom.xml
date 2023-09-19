@@ -11,6 +11,7 @@
 
     <artifactId>click-server</artifactId>
 
+
     <dependencies>
         <!-- Spring MVC -->
         <dependency>
@@ -46,6 +47,7 @@
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
         </dependency>
+
         <!--热部署-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

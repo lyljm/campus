@@ -7,6 +7,7 @@ import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
+import xhu.click.common.entity.constants.RedisConstants;
 import xhu.click.common.utils.JwtUtil;
 import xhu.click.common.utils.thread.LocalHolder;
 import xhu.click.db.entity.dto.UserDto;
@@ -17,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.TimeUnit;
 
-import static xhu.click.wx.login.entity.constrants.Constrants.LOGIN_USER_TTL;
 
 /**
  * 刷新token的拦截器
@@ -44,7 +44,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
         String payloadStr = Base64Decoder.decodeStr((CharSequence) verify);
         Payload payload = JSONUtil.toBean(payloadStr, Payload.class);
         // 基于openid获取redis中的用户
-        String key = Constrants.LOGIN_USER_KEY + payload.getUser();
+        String key = RedisConstants.LOGIN_USER_KEY + payload.getUser();
         String userDto = stringRedisTemplate.opsForValue().get(key);
         if(userDto==null){
             return true;
@@ -54,7 +54,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
         // 存在，保存用户信息到 ThreadLocal
         LocalHolder.saveObject(userDTO);
         // 刷新token有效期
-        stringRedisTemplate.expire(key, LOGIN_USER_TTL, TimeUnit.DAYS);
+        stringRedisTemplate.expire(key, RedisConstants.LOGIN_USER_TTL, TimeUnit.DAYS);
         // 放行
         return true;
     }

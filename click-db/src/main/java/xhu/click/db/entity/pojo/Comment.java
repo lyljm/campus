@@ -1,12 +1,8 @@
 package xhu.click.db.entity.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -54,8 +50,8 @@ public class Comment implements Serializable {
     private String photoUrl;
 
     @ApiModelProperty(value = "点赞数")
-    @TableField("like")
-    private Long like;
+    @TableField("liked")
+    private Long liked;
 
     @ApiModelProperty(value = "评论数")
     @TableField("comment")
@@ -65,12 +61,12 @@ public class Comment implements Serializable {
     @TableField("collect")
     private Long collect;
 
+    @TableField(value = "add_time",fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    @TableField("add_time")
     private LocalDateTime addTime;
 
     @ApiModelProperty(value = "更新时间")
-    @TableField("update_time")
+    @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "逻辑删除")

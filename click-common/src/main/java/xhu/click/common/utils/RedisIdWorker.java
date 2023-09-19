@@ -1,13 +1,19 @@
 package xhu.click.common.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 
+@Slf4j
 @Component
 public class RedisIdWorker {
     /**
@@ -37,7 +43,9 @@ public class RedisIdWorker {
         String date = now.format(DateTimeFormatter.ofPattern("yyyy:MM:dd"));
         // 2.2.自增长
         long count = stringRedisTemplate.opsForValue().increment("incre"+ keyPrefix + date);
-
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = simpleDateFormat.format(new Date());
+        log.info("{}注册人数:{}",format,count);
         // 3.拼接并返回
         return timestamp << COUNT_BITS | count;
     }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import xhu.click.common.entity.enums.ResultCode;
 import xhu.click.common.entity.pojo.ResultVO;
+import xhu.click.common.exception.BusinessException;
 
 @RestControllerAdvice
 public class ExceptionController {
@@ -16,6 +17,10 @@ public class ExceptionController {
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
         // 然后提取错误提示信息进行返回
         return ResultVO.error(ResultCode.VALIDATE_FAILED,e.getMessage());
+    }
+    @ExceptionHandler(BusinessException.class)
+    public ResultVO BusinessExceptionHandler(BusinessException e){
+        return ResultVO.error(e.getCode(),e.getMessage());
     }
 
 }

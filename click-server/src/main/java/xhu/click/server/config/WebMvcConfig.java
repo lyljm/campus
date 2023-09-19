@@ -1,11 +1,17 @@
 package xhu.click.server.config;
 
+import com.alibaba.fastjson.parser.ParserConfig;
+import com.alibaba.fastjson.serializer.SerializeConfig;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.support.config.FastJsonConfig;
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -22,6 +28,7 @@ import xhu.click.wx.login.intercepter.LoginInterceptor;
 import xhu.click.wx.login.intercepter.RefreshTokenInterceptor;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -45,12 +52,15 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
                         /**
                          * todo 拦截
                          */
-                        "/**",
+//                        "/**",
                         "/wx/login",
                         "doc.html",
                         "/webjars/**",
                         "/swagger-resources",
                         "/v2/api-docs"
+                )
+                .addPathPatterns(
+                        "/user"
                 )
                 .order(1);//值越小越先执行
         // token刷新的拦截器
@@ -81,12 +91,17 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         log.info("扩展消息转换器...");
-        //创建消息转换器对象
-        MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
-        //设置对象转换器，底层使用Jackson将Java对象转为json
-        messageConverter.setObjectMapper(new JsonMapper());
-        //将上面的消息转换器对象追加到mvc框架的转换器集合中
-        converters.add(0, messageConverter);
+        converters.add(0, new FastJsonHttpMessageConverter());
+////        //创建消息转换器对象
+//        MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
+//        //设置对象转换器，底层使用Jackson将Java对象转为json
+//        messageConverter.setObjectMapper(new JsonMapper());
+//        //将上面的消息转换器对象追加到mvc框架的转换器集合中
+//        converters.add(0, messageConverter);
+////        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
+////        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+////        fastConverter.setFastJsonConfig(fastJsonConfig);
+////        converters.add(fastConverter);
     }
 
     //描述接口文档相关的信息

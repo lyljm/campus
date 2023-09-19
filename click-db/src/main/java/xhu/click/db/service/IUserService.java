@@ -13,4 +13,6 @@ import xhu.click.db.entity.pojo.User;
  */
 public interface IUserService extends IService<User> {
     User getByOpenid(User openid);
+
+    int deleteByOpenid(String openid);
 }

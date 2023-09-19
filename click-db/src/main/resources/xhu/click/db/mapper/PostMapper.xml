@@ -12,6 +12,7 @@
         <result column="subject_id" property="subjectId" />
         <result column="content" property="content" />
         <result column="photo_url" property="photoUrl" />
+        <result column="status" property="status" />
         <result column="like" property="like" />
         <result column="comment" property="comment" />
         <result column="collect" property="collect" />
@@ -20,6 +21,7 @@
         <result column="deleted" property="deleted" />
         <result column="version" property="version" />
     </resultMap>
+
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
