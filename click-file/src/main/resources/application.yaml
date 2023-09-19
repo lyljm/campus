@@ -1,0 +1,5 @@
+minio:
+  url: http://47.113.185.139:9090/
+  secret: ljmljm@0211
+  access: eifying
+  bucket: click

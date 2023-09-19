@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xhu.click.db.mapper.UserMapper">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="xhu.click.db.entity.pojo.User">
+        <id column="id" property="id" />
+        <result column="inviter" property="inviter" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="true_name" property="trueName" />
+        <result column="gender" property="gender" />
+        <result column="label" property="label" />
+        <result column="back_url" property="backUrl" />
+        <result column="birthday" property="birthday" />
+        <result column="share_url" property="shareUrl" />
+        <result column="last_login_time" property="lastLoginTime" />
+        <result column="last_login_ip" property="lastLoginIp" />
+        <result column="user_level" property="userLevel" />
+        <result column="integral" property="integral" />
+        <result column="nick_name" property="nickName" />
+        <result column="mobile" property="mobile" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="openid" property="openid" />
+        <result column="session_key" property="sessionKey" />
+        <result column="status" property="status" />
+        <result column="add_time" property="addTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, inviter, username, password, true_name, gender, label, back_url, birthday, share_url, last_login_time, last_login_ip, user_level, integral, nick_name, mobile, avatar_url, openid, session_key, status, add_time, update_time, deleted, tenant_id, version
+    </sql>
+
+</mapper>

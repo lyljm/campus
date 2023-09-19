@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="click-wx-login" />
         <module name="click-common" />
+        <module name="click-file" />
         <module name="click-server" />
         <module name="click-db" />
       </profile>
@@ -23,6 +24,7 @@
       <module name="click-captcha" options="-parameters" />
       <module name="click-common" options="-parameters" />
       <module name="click-db" options="-parameters" />
+      <module name="click-file" options="-parameters" />
       <module name="click-server" options="-parameters" />
       <module name="click-web" options="-parameters" />
       <module name="click-wx-login" options="-parameters" />

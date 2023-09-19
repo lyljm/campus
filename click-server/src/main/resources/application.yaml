@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/campusactivity?serverTimezone=UTC
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
@@ -31,6 +31,17 @@ spring:
     redis:
       time-to-live: 1800000 #设置缓存有效期
 #      key-prefix: 'click:' #前缀
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+      additional-paths: src/main/java #重启目录
+      exclude: WEB-INF/**
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+
 
 # mp日志
 mybatis-plus:
@@ -38,4 +49,10 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印SQL日志到控制台
 
 
+
+minio:
+  url: http://47.113.185.139:9000/
+  secret: ljmljm@0211
+  access: eifying
+  bucket: click
 #debug: true

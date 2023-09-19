@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @MapperScan("xhu.click.db.mapper")
 @EnableCaching
-@ComponentScan({"xhu.click.common","xhu.click.server","xhu.click.captcha","xhu.click.db","xhu.click.wx.login"})
+@ComponentScan({"xhu.click.common","xhu.click.server","xhu.click.db","xhu.click.wx.login","xhu.click.file"})
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {

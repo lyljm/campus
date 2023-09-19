@@ -46,7 +46,12 @@
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
         </dependency>
-
+        <!--热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional> <!-- 可以防止将devtools依赖传递到其他模块中 -->
+        </dependency>
         <!--        db配置-->
 
 <!--缓存-->

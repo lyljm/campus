@@ -1,21 +1,28 @@
 package xhu.click.wx.login.intercepter;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.codec.Base64Decoder;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
+import xhu.click.common.utils.JwtUtil;
 import xhu.click.common.utils.thread.LocalHolder;
 import xhu.click.db.entity.dto.UserDto;
+import xhu.click.wx.login.entity.constrants.Constrants;
+import xhu.click.wx.login.entity.pojo.Payload;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static xhu.click.common.entity.constants.RedisConstants.LOGIN_USER_KEY;
-import static xhu.click.common.entity.constants.RedisConstants.LOGIN_USER_TTL;
+import static xhu.click.wx.login.entity.constrants.Constrants.LOGIN_USER_TTL;
 
-
+/**
+ * 刷新token的拦截器
+ */
+@Slf4j
 public class RefreshTokenInterceptor implements HandlerInterceptor {
 
 
@@ -32,20 +39,23 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
         if (StrUtil.isBlank(token)) {
             return true;
         }
-        // 2.基于TOKEN获取redis中的用户
-        String key = LOGIN_USER_KEY + token;
-        Map<Object, Object> userMap = stringRedisTemplate.opsForHash().entries(key);
-        // 3.判断用户是否存在
-        if (userMap.isEmpty()) {
+        //获取负载，转换为Payload
+        Object verify = JwtUtil.getPayload(token);
+        String payloadStr = Base64Decoder.decodeStr((CharSequence) verify);
+        Payload payload = JSONUtil.toBean(payloadStr, Payload.class);
+        // 基于openid获取redis中的用户
+        String key = Constrants.LOGIN_USER_KEY + payload.getUser();
+        String userDto = stringRedisTemplate.opsForValue().get(key);
+        if(userDto==null){
             return true;
         }
-        // 5.将查询到的hash数据转为UserDTO
-        UserDto userDTO = BeanUtil.fillBeanWithMap(userMap, new UserDto(), false);
-        // 6.存在，保存用户信息到 ThreadLocal
+        // 将查询到的json数据转为UserDTO
+        UserDto userDTO = JSONUtil.toBean(userDto, UserDto.class);
+        // 存在，保存用户信息到 ThreadLocal
         LocalHolder.saveObject(userDTO);
-        // 7.刷新token有效期
-//        stringRedisTemplate.expire(key, LOGIN_USER_TTL, TimeUnit.MINUTES);
-        // 8.放行
+        // 刷新token有效期
+        stringRedisTemplate.expire(key, LOGIN_USER_TTL, TimeUnit.DAYS);
+        // 放行
         return true;
     }
 

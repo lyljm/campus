@@ -6,16 +6,14 @@ import cn.hutool.core.date.DateUtil;
 import org.junit.Test;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
 
 
 public class JWTTest {
     @Test
     public void testGenerator() throws InterruptedException {
-        Map<String, Object>map=new HashMap<>();
-        map.put("sss","sssss");
-        String s = JwtUtil.setJwt(map, DateUtil.offsetMonth(new Date(),1));
+       String ttl="ssfs";
+        String s = JwtUtil.setJwt(ttl, DateUtil.offsetMonth(new Date(),1));
         System.out.println(s);
 //        Thread.sleep(1000);
         Object verify = JwtUtil.getPayload(s);

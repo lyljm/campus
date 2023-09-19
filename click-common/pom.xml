@@ -45,15 +45,18 @@
         <version>3.0.3</version>
     </dependency>
 
+<!--    junit-->
     <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <scope>test</scope>
     </dependency>
+<!--    lombok-->
     <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
     </dependency>
+<!--    fastjson-->
     <dependency>
         <groupId>com.alibaba</groupId>
         <artifactId>fastjson</artifactId>

@@ -22,6 +22,7 @@
 <!--        <module>click-captcha</module>-->
         <module>click-wx-login</module>
         <module>click-db</module>
+        <module>click-file</module>
 
     </modules>
 
