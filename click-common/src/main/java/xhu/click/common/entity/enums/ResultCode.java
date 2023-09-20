@@ -20,6 +20,8 @@ public enum ResultCode {
 
     FILE_DELETE_ERROR(10005,"文件删除错误"),
 
+    FILE_TOO_LONG(10006,"文件数量大于9"),
+
     NO_POST(20001,"没有该图文"),
 
     ERROR(5000, "未知错误");

@@ -22,6 +22,10 @@ public class RedisConstants {
     /**
      * 点赞前缀
      */
-    public static final String IS_LIKED="click:isLiked:";
+    public static final String POST_IS_LIKED="click:post:isLiked:";
+    /**
+     * 评论点赞
+     */
+    public static final String COMMENT_IS_LIKED="click:comment:isLiked:";
 
 }

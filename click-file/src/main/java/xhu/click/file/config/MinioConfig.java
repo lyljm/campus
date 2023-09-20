@@ -17,4 +17,6 @@ public class MinioConfig {
     String secret;
     @Value("${minio.bucket}")
     String bucket;
+    @Value("${minio.prefixUrl}")
+    String prefixUrl;
 }

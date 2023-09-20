@@ -10,13 +10,13 @@ import xhu.click.common.entity.enums.ResultCode;
 
 @ApiModel("统一返回结果")
 @Data
-public class ResultVO {
+public class ResultVO<T> {
     @ApiModelProperty("是否成功，1成功，0和其他数字失败")
     private Integer success;
     @ApiModelProperty("信息")
     private String Msg;
     @ApiModelProperty("数据")
-    private Object data;
+    private T data;
 
     /**
      * 不允许直接创建ResultVo
@@ -25,7 +25,7 @@ public class ResultVO {
 
     }
 
-    private ResultVO(Integer success, String errorMsg, Object data) {
+    private ResultVO(Integer success, String errorMsg, T data) {
         this.success = success;
         this.Msg = errorMsg;
         this.data = data;
@@ -41,6 +41,10 @@ public class ResultVO {
 
     public static ResultVO error(int code,String errorMsg) {
         return new ResultVO(code, errorMsg, null);
+    }
+
+    public static ResultVO error(int code,String errorMsg,Object data) {
+        return new ResultVO(code, errorMsg, data);
     }
 
     public static ResultVO error(ResultCode resultCode) {

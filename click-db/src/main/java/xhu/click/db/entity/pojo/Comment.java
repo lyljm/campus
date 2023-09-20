@@ -35,11 +35,11 @@ public class Comment implements Serializable {
 
     @ApiModelProperty(value = "回复的人的id")
     @TableField("user_id")
-    private Long userId;
+    private String userId;
 
     @ApiModelProperty(value = "被回复的人的id")
     @TableField("replay_id")
-    private Long replayId;
+    private String replayId;
 
     @ApiModelProperty(value = "内容")
     @TableField("content")

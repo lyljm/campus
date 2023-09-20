@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import xhu.click.common.entity.pojo.ResultVO;
-import xhu.click.file.config.FilePath;
+import xhu.click.file.constants.FilePathConstants;
 import xhu.click.file.service.MinioService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 @Api(tags = "文件")
 @RestController
@@ -31,7 +30,7 @@ public class FileController {
     @PostMapping
     public ResultVO upload(@NotNull MultipartFile file) throws Exception {
         // 上传
-        String url = minioService.putObject(FilePath.FILE_PATH,file);
+        String url = minioService.putObject(FilePathConstants.FILE_PATH,file);
         // 返回文件名
         return ResultVO.ok(url);
     }

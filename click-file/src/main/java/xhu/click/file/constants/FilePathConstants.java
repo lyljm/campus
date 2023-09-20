@@ -1,6 +1,6 @@
-package xhu.click.file.config;
+package xhu.click.file.constants;
 
-public class FilePath {
+public class FilePathConstants {
     /**
      * 普通文件在桶内路径
      */
@@ -9,5 +9,8 @@ public class FilePath {
      * 头像在桶内路径
      */
     public static final String AVATAR_PATH="avatar/";
-//    public static final String
+    /**
+     * 图文中的图路径
+     */
+    public static final String POST_PATH="post/";
 }
