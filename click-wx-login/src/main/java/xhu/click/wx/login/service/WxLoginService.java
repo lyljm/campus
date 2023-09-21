@@ -11,6 +11,7 @@ import okhttp3.Response;
 import org.springframework.stereotype.Service;
 import xhu.click.common.utils.JwtUtil;
 import xhu.click.db.entity.dto.UserDto;
+import xhu.click.wx.login.entity.constrants.Constants;
 import xhu.click.wx.login.entity.constrants.WxConstrants;
 import xhu.click.wx.login.entity.pojo.WxResponse;
 import java.io.IOException;
@@ -35,6 +36,9 @@ public class WxLoginService {
         Request request = new Request.Builder()
                 .url(queryUrlBuilder.build())
                 .build();
+        /**
+         * todo数据持久化
+         */
         String responseStr = null;
         WxResponse wxResponse = null;
         try {
@@ -56,6 +60,6 @@ public class WxLoginService {
      * @return
      */
     private String generateJWT(UserDto userDto){
-        return JwtUtil.setJwt(userDto, DateUtil.offsetDay(new Date(),WxConstrants.EXPIRE_DAY));
+        return JwtUtil.setJwt(userDto, DateUtil.offsetDay(new Date(), Constants.EXPIRE_DAY));
     }
 }

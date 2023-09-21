@@ -86,4 +86,12 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return !liked;
     }
 
+    @Override
+    public List getCommentByUserid(String id) {
+        QueryWrapper<Comment> commentQueryWrapper = new QueryWrapper<>();
+        commentQueryWrapper.eq("user_id",id);
+        List<Comment> comments = commentMapper.selectList(commentQueryWrapper);
+        return comments;
+    }
+
 }

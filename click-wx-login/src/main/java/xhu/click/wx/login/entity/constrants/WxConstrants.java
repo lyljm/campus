@@ -17,8 +17,5 @@ public class WxConstrants {
      * grant_type
      */
     public static final String GRANT_TYPE="authorization_code";
-    /**
-     * 登录过期时间
-     */
-    public static final int EXPIRE_DAY=30;
+
 }

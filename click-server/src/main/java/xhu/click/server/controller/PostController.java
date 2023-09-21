@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import xhu.click.common.entity.enums.ResultCode;
 import xhu.click.common.entity.pojo.ResultVO;
+import xhu.click.common.utils.thread.LocalHolder;
 import xhu.click.db.entity.dto.PostDto;
+import xhu.click.db.entity.dto.UserDto;
 import xhu.click.db.entity.pojo.Post;
 import xhu.click.db.entity.vo.PageResult;
 import xhu.click.db.service.IPostService;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Api(tags = "图文")
 @RequestMapping("/post")
@@ -80,6 +83,5 @@ public class PostController {
         }
         return ResultVO.ok(1);
     }
-
 
 }

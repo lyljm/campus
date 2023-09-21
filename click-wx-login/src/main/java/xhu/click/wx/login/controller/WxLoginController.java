@@ -9,9 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xhu.click.common.entity.constants.RedisConstants;
@@ -23,11 +21,10 @@ import xhu.click.common.utils.RedisIdWorker;
 import xhu.click.db.entity.dto.UserDto;
 import xhu.click.db.entity.pojo.User;
 import xhu.click.db.service.IUserService;
-import xhu.click.wx.login.entity.constrants.Constrants;
+import xhu.click.wx.login.entity.constrants.Constants;
 import xhu.click.wx.login.entity.pojo.WxResponse;
 import xhu.click.wx.login.service.WxLoginService;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -78,7 +75,7 @@ public class WxLoginController {
             user.setLastLoginTime(LocalDateTime.now());
             user.setNickName("user_"+ RandomUtil.randomString(10));
             user.setAvatarUrl("");
-            user.setLabel(Constrants.DEFAULT_LABEL);
+            user.setLabel(Constants.DEFAULT_LABEL);
             userService.save(user);
         }
 //        存在user

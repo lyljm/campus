@@ -15,13 +15,13 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author eifying
- * @since 2023-09-17
+ * @since 2023-09-21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("campus_adverty")
-@ApiModel(value="Adverty对象", description="广告")
-public class Adverty implements Serializable {
+@TableName("campus_advert")
+@ApiModel(value="Advert对象", description="广告")
+public class Advert implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,9 +37,11 @@ public class Adverty implements Serializable {
     @TableField("user_id")
     private Long userId;
 
+    @ApiModelProperty(value = "被回复的的人的id")
     @TableField("replay_id")
     private Long replayId;
 
+    @ApiModelProperty(value = "跳转链接")
     @TableField("content")
     private String content;
 
@@ -59,9 +61,8 @@ public class Adverty implements Serializable {
     @TableField("collect")
     private Long collect;
 
-    @TableField(value = "add_time",fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime addTime;
+    @TableField(value = "add_time",fill = FieldFill.INSERT)    private LocalDateTime addTime;
 
     @ApiModelProperty(value = "更新时间")
     @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)

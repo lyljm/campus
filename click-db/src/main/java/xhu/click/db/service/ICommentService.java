@@ -3,6 +3,7 @@ package xhu.click.db.service;
 import xhu.click.db.entity.pojo.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,4 +20,6 @@ public interface ICommentService extends IService<Comment> {
     boolean isLiked(Long id);
 
     boolean likeComment(Long id);
+
+    List getCommentByUserid(String id);
 }

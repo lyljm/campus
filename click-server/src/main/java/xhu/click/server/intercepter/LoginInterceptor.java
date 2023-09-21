@@ -1,4 +1,4 @@
-package xhu.click.wx.login.intercepter;
+package xhu.click.server.intercepter;
 
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;

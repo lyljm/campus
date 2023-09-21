@@ -1,6 +1,5 @@
-package xhu.click.wx.login.intercepter;
+package xhu.click.server.intercepter;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.codec.Base64Decoder;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
@@ -11,7 +10,6 @@ import xhu.click.common.entity.constants.RedisConstants;
 import xhu.click.common.utils.JwtUtil;
 import xhu.click.common.utils.thread.LocalHolder;
 import xhu.click.db.entity.dto.UserDto;
-import xhu.click.wx.login.entity.constrants.Constrants;
 import xhu.click.wx.login.entity.pojo.Payload;
 
 import javax.servlet.http.HttpServletRequest;

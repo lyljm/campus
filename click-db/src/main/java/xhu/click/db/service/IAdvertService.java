@@ -1,6 +1,6 @@
 package xhu.click.db.service;
 
-import xhu.click.db.entity.pojo.Adverty;
+import xhu.click.db.entity.pojo.Advert;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author eifying
- * @since 2023-09-17
+ * @since 2023-09-21
  */
-public interface IAdvertyService extends IService<Adverty> {
+public interface IAdvertService extends IService<Advert> {
 
 }
