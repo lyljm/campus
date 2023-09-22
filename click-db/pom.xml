@@ -18,30 +18,30 @@
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <scope>runtime</scope>
-        <version>8.0.28</version>
     </dependency>
+
     <!--druid连接池-->
     <dependency>
         <groupId>com.alibaba</groupId>
         <artifactId>druid</artifactId>
-        <version>1.2.18</version>
     </dependency>
+
     <!--MybatisPlus-->
     <dependency>
         <groupId>com.baomidou</groupId>
         <artifactId>mybatis-plus-boot-starter</artifactId>
-        <version>3.4.3</version>
     </dependency>
+
 <!--    lombok-->
     <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
     </dependency>
+
 <!--    pageHelper-->
     <dependency>
         <groupId>com.github.pagehelper</groupId>
         <artifactId>pagehelper-spring-boot-starter</artifactId>
-        <version>1.4.6</version>
     </dependency>
 
 <!--    click-->
@@ -49,26 +49,29 @@
         <groupId>org.click.clickweb</groupId>
         <artifactId>click-common</artifactId>
     </dependency>
-    <dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>RELEASE</version>
-        <scope>test</scope>
-    </dependency>
+
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-test</artifactId>
         <scope>test</scope>
     </dependency>
+
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-web</artifactId>
     </dependency>
+
     <dependency>
         <groupId>org.click.clickweb</groupId>
         <artifactId>click-file</artifactId>
-        <version>1.0-SNAPSHOT</version>
         <scope>compile</scope>
     </dependency>
+
+    <!--    <dependency>-->
+    <!--        <groupId>org.testng</groupId>-->
+    <!--        <artifactId>testng</artifactId>-->
+    <!--        <version>RELEASE</version>-->
+    <!--        <scope>test</scope>-->
+    <!--    </dependency>-->
 </dependencies>
 </project>

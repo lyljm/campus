@@ -3,9 +3,7 @@ package xhu.click.common.entity.pojo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import xhu.click.common.entity.enums.ResultCode;
 
 @ApiModel("统一返回结果")

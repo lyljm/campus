@@ -8,7 +8,8 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.7.14</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
+        <!-- lookup parent from repository -->
     </parent>
 
     <groupId>org.click.clickweb</groupId>
@@ -23,7 +24,6 @@
         <module>click-wx-login</module>
         <module>click-db</module>
         <module>click-file</module>
-
     </modules>
 
     <properties>
@@ -40,7 +40,8 @@
         <servlet.versoin>2.5</servlet.versoin>
         <!-- DB 相关 -->
         <druid.version>1.2.18</druid.version>
-        <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
+        <mybatis-plus.version>3.4.3</mybatis-plus.version>
+        <mybatis-plus-pageHelper.version>1.4.6</mybatis-plus-pageHelper.version>
         <mybatis-plus-generator.version>3.5.3.2</mybatis-plus-generator.version>
         <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
         <mybatis-plus-join.version>1.4.6</mybatis-plus-join.version>
@@ -60,7 +61,7 @@
         <!-- Bpm 工作流相关 -->
         <flowable.version>6.8.0</flowable.version>
         <!-- 工具类相关 -->
-        <captcha-plus.version>1.0.6</captcha-plus.version>
+        <captcha-plus.version>1.3.0</captcha-plus.version>
         <jsoup.version>1.15.4</jsoup.version>
         <lombok.version>1.18.28</lombok.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
@@ -89,9 +90,14 @@
         <jimureport.version>1.5.8</jimureport.version>
         <xercesImpl.version>2.12.2</xercesImpl.version>
         <weixin-java.version>4.5.0</weixin-java.version>
+        <click.version>1.0-SNAPSHOT</click.version>
+        <minio.version>8.0.3</minio.version>
+        <mysql.version>8.0.28</mysql.version>
+        <jwt.version>4.4.0</jwt.version>
     </properties>
 
     <dependencies>
+
 
     </dependencies>
 
@@ -104,26 +110,106 @@
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
-            <!--            DB-->
 
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-cache</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <!--            工具类相关-->
+            <!--            DB-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <scope>runtime</scope>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!--    pageHelper-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${mybatis-plus-pageHelper.version}</version>
+            </dependency>
+
+            <!--        click-->
             <dependency>
                 <groupId>org.click.clickweb</groupId>
                 <artifactId>click-common</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <version>${click.version}</version>
             </dependency>
-            <!--            工具类相关-->
-            <!--            knife4j-->
-            <!--            <dependency>-->
-            <!--                <groupId>com.github.xiaoymin</groupId>-->
-            <!--                <artifactId>knife4j-spring-boot-starter</artifactId>-->
-            <!--                <version>4.3.0</version>-->
-            <!--            </dependency>-->
 
-            <!--            <dependency>-->
-            <!--                <groupId>org.projectlombok</groupId>-->
-            <!--                <artifactId>lombok</artifactId>-->
-            <!--                <version>${lombok.version}</version>-->
-            <!--            </dependency>-->
+
+            <dependency>
+                <groupId>org.click.clickweb</groupId>
+                <artifactId>click-db</artifactId>
+                <version>${click.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.click.clickweb</groupId>
+                <artifactId>click-wx-login</artifactId>
+                <version>${click.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.click.clickweb</groupId>
+                <artifactId>click-file</artifactId>
+                <version>${click.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+
+            <!--    junit-->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!--    jwt-->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+            <!--lombok-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+            <!--            knife4j-->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+
+            <!-- MinIO SDK-->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+
+            <!--            DB-->
 
             <!--            <dependency>-->
             <!--                <groupId>org.mapstruct</groupId>-->
@@ -152,17 +238,23 @@
             <!--                <artifactId>easyexcel</artifactId>-->
             <!--                <version>${easyexcel.verion}</version>-->
             <!--            </dependency>-->
-            <!--            <dependency>-->
-            <!--                <groupId>commons-io</groupId>-->
-            <!--                <artifactId>commons-io</artifactId>-->
-            <!--                <version>${commons-io.version}</version>-->
-            <!--            </dependency>-->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
 
-            <!--            <dependency>-->
-            <!--                <groupId>com.alibaba</groupId>-->
-            <!--                <artifactId>fastjson</artifactId>-->
-            <!--                <version>${fastjson.version}</version>-->
-            <!--            </dependency>-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.anji-plus</groupId>
+                <artifactId>spring-boot-starter-captcha</artifactId>
+                <version>${captcha-plus.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -181,15 +273,15 @@
     <!--        </repository>-->
     <!--    </repositories>-->
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 
 </project>
