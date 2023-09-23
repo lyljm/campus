@@ -27,5 +27,9 @@ public class RedisConstants {
      * 评论点赞
      */
     public static final String COMMENT_IS_LIKED="click:comment:isLiked:";
+    /**
+     * 是否收藏
+     */
+    public static final String POST_IS_COLLECT="click:post:isCollect:";
 
 }

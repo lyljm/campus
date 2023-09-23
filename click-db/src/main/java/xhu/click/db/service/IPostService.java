@@ -26,6 +26,9 @@ public interface IPostService extends IService<Post> {
 
     boolean likedPost(Long id);
 
-
     boolean uploadPost(PostDto dto, MultipartFile[] files);
+
+    boolean isCollect(Long id);
+
+    boolean collectPost(Long id);
 }

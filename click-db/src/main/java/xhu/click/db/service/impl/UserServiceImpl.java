@@ -43,4 +43,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         lambdaQueryWrapper.eq(openid != null&&"".equals(openid.trim()), User::getOpenid, openid);
         return userMapper.delete(lambdaQueryWrapper);
     }
+
+    @Override
+    public int interestUser(Long id) {
+
+
+
+
+        return 0;
+    }
 }

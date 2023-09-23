@@ -50,7 +50,7 @@ public class WxLoginController {
     RedisIdWorker redisIdWorker;
 
     @ApiOperation("通过微信code获取token")
-    @ApiImplicitParam(name = "code",value = "login码",required = true)
+    @ApiImplicitParam(name = "code",value = "login码",required = true,dataTypeClass = String.class)
     @PostMapping("login")
     public ResultVO getCode(@NotNull String code) {
         if(code==null){

@@ -15,4 +15,6 @@ public interface IUserService extends IService<User> {
     User getByOpenid(User openid);
 
     int deleteByOpenid(String openid);
+
+    int interestUser(Long id);
 }

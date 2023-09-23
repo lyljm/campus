@@ -28,13 +28,15 @@ public class CommentController {
 
     @ApiOperation("获取图文的所有的评论")
     @GetMapping("all/{id}")
-    @ApiImplicitParam(name = "id",value = "图文的id")
+    @ApiImplicitParam(name = "id",value = "图文的id",dataTypeClass = Long.class)
     ResultVO<Map> commentPost(@NotNull @PathVariable Long id){
         Map commentById = commentService.getCommentById(id);
         return ResultVO.ok(commentById);
     }
 
+
     @ApiOperation("判断用户是否点赞某评论")
+    @ApiImplicitParam(name = "id",value = "评论的id",required = true,dataTypeClass = Long.class)
     @GetMapping("isliked/{id}")
     ResultVO<Integer> isLiked(@NotNull@PathVariable Long id){
         boolean liked = commentService.isLiked(id);
@@ -43,7 +45,7 @@ public class CommentController {
 
 
     @ApiOperation("点赞评论某评论")
-    @ApiImplicitParam(name = "id",value = "评论的id")
+    @ApiImplicitParam(name = "id",value = "评论的id",required = true,dataTypeClass = Long.class)
     @GetMapping("liked/{id}")
     ResultVO<Integer> likeComment(@NotNull @PathVariable Long id){
         boolean liked = commentService.likeComment(id);

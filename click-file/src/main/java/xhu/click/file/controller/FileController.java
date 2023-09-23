@@ -26,7 +26,7 @@ public class FileController {
 
     // 上传，上传成功会返回文件名
     @ApiOperation("文件上传")
-    @ApiImplicitParam(name = "file",value = "文件，multipartFile")
+    @ApiImplicitParam(name = "file",value = "文件，multipartFile",dataTypeClass = MultipartFile.class)
     @PostMapping
     public ResultVO upload(@NotNull MultipartFile file) throws Exception {
         // 上传
@@ -37,7 +37,7 @@ public class FileController {
 
     // 根据文件名下载文件
     @ApiOperation("下载文件")
-    @ApiImplicitParam(name = "fileName",value = "文件路径+文件名，例:click/avatar/asdfsdfsdcd.jpg")
+    @ApiImplicitParam(name = "fileName",value = "文件路径+文件名，例:click/avatar/asdfsdfsdcd.jpg",dataTypeClass = String.class)
     @GetMapping("{fileName}")
     public void download(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws Exception  {
         // 设置响应类型
@@ -55,7 +55,7 @@ public class FileController {
 
     // 根据文件名删除文件
     @ApiOperation("删除文件")
-    @ApiImplicitParam(name = "fileName",value = "文件路径+文件名，例:click/avatar/asdfsdfsdcd.jpg")
+    @ApiImplicitParam(name = "fileName",value = "文件路径+文件名，例:click/avatar/asdfsdfsdcd.jpg",dataTypeClass = String.class)
     @DeleteMapping("{fileName}")
     public String remove(@PathVariable("fileName") String fileName) throws Exception  {
         minioService.removeObject(fileName);

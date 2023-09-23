@@ -19,17 +19,23 @@ import xhu.click.db.entity.dto.PostDto;
 import xhu.click.db.entity.dto.UserDto;
 import xhu.click.db.entity.enums.PostStatus;
 import xhu.click.db.entity.enums.PostStrategy;
+import xhu.click.db.entity.pojo.Collect;
+import xhu.click.db.entity.pojo.Postliked;
 import xhu.click.db.entity.vo.PageResult;
 import xhu.click.db.entity.pojo.Post;
 import xhu.click.db.entity.vo.PostVo;
 import xhu.click.db.mapper.PostMapper;
+import xhu.click.db.service.ICollectService;
 import xhu.click.db.service.IPostService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import xhu.click.db.service.IPostlikedService;
 import xhu.click.file.config.MinioConfig;
 import xhu.click.file.constants.FilePathConstants;
 import xhu.click.file.service.MinioService;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -51,6 +57,12 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
     PostMapper postMapper;
 
     @Autowired
+    IPostlikedService postlikedService;
+
+    @Autowired
+    ICollectService collectService;
+
+    @Autowired
     StringRedisTemplate stringRedisTemplate;
 
     @Autowired
@@ -59,7 +71,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
     @Autowired
     MinioConfig minioConfig;
 
-    private ExecutorService es = Executors.newFixedThreadPool(9);
+    UserDto userDto = (UserDto) LocalHolder.getObject();
 
     /**
      * 获取图文
@@ -94,7 +106,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
         //查询出来的数据
         List<Post> list = postPageInfo.getList();
         //要转换成PostVo
-        List<PostVo>postVoList=new ArrayList<>();
+        List<PostVo> postVoList = new ArrayList<>();
 //        图片地址加前缀
         list.forEach(post -> {
             String photoUrl = post.getPhotoUrl();
@@ -138,30 +150,46 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
      */
     @Override
     public boolean isLiked(Long id) {
-        UserDto userDto = (UserDto) LocalHolder.getObject();
-        return stringRedisTemplate.opsForSet().isMember(RedisConstants.POST_IS_LIKED + id, userDto.getId());
+        // 判断是否点赞
+        Double score = stringRedisTemplate.opsForZSet().score(RedisConstants.POST_IS_LIKED + id, userDto.getId());
+        // 如果有记录,返回结果
+        if (score != null) {
+            if (score < 0.1) {
+                return false;
+            }
+            return true;
+        }
+        // 没有记录，查询数据库
+        Long liked = postlikedService.isLiked(new Postliked(id, userDto.getId(), null));
+        // 添加到缓存
+        stringRedisTemplate.opsForZSet().add(RedisConstants.POST_IS_LIKED + id, userDto.getId(), liked);
+        if (liked == 0) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean likedPost(Long id) {
-        UserDto userDto = (UserDto) LocalHolder.getObject();
         boolean liked = isLiked(id);
         String key = RedisConstants.POST_IS_LIKED + id;
         //已经点赞
         if (liked) {
             boolean isSuccess = this.update().setSql("liked=liked-1").eq("id", id).update();
-            stringRedisTemplate.opsForSet().remove(key, userDto.getId());
+            postlikedService.delete(new Postliked(id, userDto.getId(), null));
+            stringRedisTemplate.opsForZSet().add(key, userDto.getId(), 0);
         } else {
-//            未点赞
+            // 未点赞
             boolean isSuccess = this.update().setSql("liked=liked+1").eq("id", id).update();
-            stringRedisTemplate.opsForSet().add(key, userDto.getId());
+            postlikedService.save(new Postliked(id, userDto.getId(), LocalDateTime.now()));
+            stringRedisTemplate.opsForZSet().add(key, userDto.getId(), LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8")));
         }
         return !liked;
     }
 
     @Override
     public boolean uploadPost(PostDto dto, MultipartFile[] files) {
-        List<String> list = uploadPhotos(files);
+        List<String> list = minioService.uploadPhotos(FilePathConstants.POST_PATH,files);
         Post post = BeanUtil.copyProperties(dto, Post.class);
         post.setPhotoUrl(list.stream().collect(Collectors.joining(",")));
         //获取当前用户
@@ -170,33 +198,43 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
         return this.save(post);
     }
 
-    @NotNull
-    private List<String> uploadPhotos(MultipartFile[] files) {
-        long begin = System.currentTimeMillis();
-        CountDownLatch latch = new CountDownLatch(files.length);
-        List<String> list = new ArrayList<>();
-        Arrays.stream(files).forEach(file -> {
-            String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-            String fileName = UUID.randomUUID().toString().replace("-", "") + "." + extension;
-            //获取文件存储路径
-            list.add(FilePathConstants.POST_PATH + fileName);
-            Runnable task = () -> {
-                minioService.putObject(FilePathConstants.POST_PATH, fileName, file);
-                //执行任务
-                latch.countDown();
-            };
-            es.submit(task);
-        });
-        long end = System.currentTimeMillis();
-        //等待所有任务完成
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            throw new BusinessException(ResultCode.FILE_UPLOAD_ERROR);
+    @Override
+    public boolean isCollect(Long id) {
+        // 判断是否点赞
+        Double score = stringRedisTemplate.opsForZSet().score(RedisConstants.POST_IS_COLLECT + id, userDto.getId());
+        // 如果有记录,返回结果
+        if (score != null) {
+            if (score < 0.1) {
+                return false;
+            }
+            return true;
         }
-        log.info("文件上传时间：{}s", (end - begin) / 1000);
-        return list;
+        // 没有记录，查询数据库
+        Long collected = collectService.isCollect(new Collect(userDto.getId(), id, null));
+        // 添加到缓存
+        stringRedisTemplate.opsForZSet().add(RedisConstants.POST_IS_COLLECT + id, userDto.getId(), collected);
+        if (collected == 0) {
+            return false;
+        }
+        return true;
     }
 
+    @Override
+    public boolean collectPost(Long id) {
+        boolean collect = isCollect(id);
+        String key = RedisConstants.POST_IS_COLLECT + id;
+        //已经点赞
+        if (collect) {
+            boolean isSuccess = this.update().setSql("collect=collect-1").eq("id", id).update();
+            collectService.delete(new Collect(userDto.getId(), id, null));
+            stringRedisTemplate.opsForZSet().add(key, userDto.getId(), 0);
+        } else {
+            // 未点赞
+            boolean isSuccess = this.update().setSql("collect=collect+1").eq("id", id).update();
+            collectService.save(new Collect(userDto.getId(), id, LocalDateTime.now()));
+            stringRedisTemplate.opsForZSet().add(key, userDto.getId(), LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8")));
+        }
+        return !collect;
+    }
 
 }

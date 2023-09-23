@@ -6,15 +6,23 @@ import io.minio.errors.*;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import xhu.click.common.entity.enums.ResultCode;
 import xhu.click.common.exception.BusinessException;
+import xhu.click.file.constants.FilePathConstants;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Slf4j
 @Service
@@ -100,6 +108,42 @@ public class MinioService {
             log.error("文件上传失败 [{}],文件大小[{}]\n,{}", PathAndName, size, e.getMessage());
             throw new BusinessException(ResultCode.FILE_UPLOAD_ERROR);
         }
+    }
+
+    /**
+     * 上传图片文件
+     * @param files
+     * @return
+     */
+    @NotNull
+    public List<String> uploadPhotos(String path,MultipartFile[] files) {
+        ExecutorService es = Executors.newFixedThreadPool(9);
+        long begin = System.currentTimeMillis();
+        CountDownLatch latch = new CountDownLatch(files.length);
+        List<String> list = new ArrayList<>();
+        Arrays.stream(files).forEach(file -> {
+            String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+            String fileName = UUID.randomUUID().toString().replace("-", "") + "." + extension;
+            //获取文件存储路径
+            list.add(path + fileName);
+            Runnable task = () -> {
+                this.putObject(path, fileName, file);
+                //执行任务
+                latch.countDown();
+            };
+            es.submit(task);
+        });
+        long end = System.currentTimeMillis();
+        //等待所有任务完成
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            throw new BusinessException(ResultCode.FILE_UPLOAD_ERROR);
+        }finally {
+            es.shutdown();
+        }
+        log.info("文件上传时间：{}s", (end - begin) / 1000);
+        return list;
     }
 
     /**

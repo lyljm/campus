@@ -56,6 +56,7 @@ public class PostController {
     }
 
     @ApiOperation("删除图文")
+    @ApiImplicitParam(name = "id",value = "图文的id",dataTypeClass = Long.class,required = true)
     @DeleteMapping("{id}")
     ResultVO deletePost(@PathVariable Long id) {
         if (postService.deletePostById(id) == 0) {
@@ -64,8 +65,9 @@ public class PostController {
         return ResultVO.ok();
     }
 
-    @ApiOperation("获取是否点赞该图文,1为赞，0为否")
-    @ApiImplicitParam(name = "id",value = "图文的id")
+    @ApiOperation("判断是否点赞该图文,1为赞，0为否")
+    @ApiImplicitParam(name = "id",value = "图文的id",dataTypeClass = Long.class,required = true)
+
     @GetMapping("liked/{id}")
     ResultVO<Integer> isLiked(@PathVariable Long id) {
         if (!postService.isLiked(id)) {
@@ -75,10 +77,30 @@ public class PostController {
     }
 
     @ApiOperation("点赞图文,,1为赞，0为否")
-    @ApiImplicitParam(name = "id",value = "图文的id")
+    @ApiImplicitParam(name = "id",value = "图文的id",dataTypeClass = Long.class,required = true)
     @PostMapping("liked/{id}")
     ResultVO<Integer> likedPost(@PathVariable Long id) {
         if (!postService.likedPost(id)) {
+            return ResultVO.ok(0);
+        }
+        return ResultVO.ok(1);
+    }
+
+    @ApiOperation("判断是否收藏该图文,1为收藏，0为否")
+    @ApiImplicitParam(name = "id",value = "图文的id",dataTypeClass = Long.class,required = true)
+    @GetMapping("iscollect/{id}")
+    ResultVO<Integer> isCollect(@PathVariable Long id) {
+        if (!postService.isCollect(id)) {
+            return ResultVO.ok(0);
+        }
+        return ResultVO.ok(1);
+    }
+
+    @ApiOperation("收藏图文,,1为收藏，0为否")
+    @ApiImplicitParam(name = "id",value = "图文的id",dataTypeClass = Long.class,required = true)
+    @PostMapping("collect/{id}")
+    ResultVO<Integer> collectPost(@PathVariable Long id) {
+        if (!postService.collectPost(id)) {
             return ResultVO.ok(0);
         }
         return ResultVO.ok(1);

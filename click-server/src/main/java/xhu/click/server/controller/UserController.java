@@ -50,4 +50,11 @@ public class UserController {
         return ResultVO.ok();
     }
 
+    @ApiOperation(("关注用户"))
+    @PostMapping("interest/{id}")
+    public ResultVO interestUser(@PathVariable Long id){
+
+        userService.interestUser(id);
+        return ResultVO.ok();
+    }
 }
