@@ -4,9 +4,12 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/campusactivity?serverTimezone=UTC
+#    url: jdbc:mysql://localhost:3306/campusactivity?serverTimezone=UTC
+#    username: root
+#    password: root
+    url: jdbc:mysql://47.113.185.139:3306/campusactivity?serverTimezone=UTC
     username: root
-    password: root
+    password: 32875202@Ly
     type: com.alibaba.druid.pool.DruidDataSource
     initial‐size: 5
     min‐idle: 5
