@@ -16,7 +16,7 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 import xhu.click.server.intercepter.LoginInterceptor;
 import xhu.click.server.intercepter.RefreshTokenInterceptor;
 
@@ -26,7 +26,7 @@ import java.util.List;
 
 @Slf4j
 @Configuration
-@EnableSwagger2 //两个注释开启api文档
+@EnableSwagger2WebMvc //两个注释开启api文档
 @EnableKnife4j
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 

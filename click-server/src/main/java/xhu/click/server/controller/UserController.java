@@ -2,6 +2,7 @@ package xhu.click.server.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import xhu.click.common.entity.pojo.ResultVO;
 import xhu.click.common.utils.thread.LocalHolder;
 import xhu.click.db.entity.dto.UserDto;
 import xhu.click.db.entity.pojo.User;
+import xhu.click.db.service.IInterestUserService;
 import xhu.click.db.service.IUserService;
+
+import java.util.List;
 
 
 @Slf4j
@@ -21,6 +25,9 @@ public class UserController {
 
     @Autowired
     IUserService userService;
+
+    @Autowired
+    IInterestUserService interestUserService;
 
     @ApiOperation("通过openid获取用户详细信息")
     @GetMapping("{openid}")
@@ -50,11 +57,29 @@ public class UserController {
         return ResultVO.ok();
     }
 
-    @ApiOperation(("关注用户"))
-    @PostMapping("interest/{id}")
-    public ResultVO interestUser(@PathVariable Long id){
 
-        userService.interestUser(id);
-        return ResultVO.ok();
+    @ApiOperation("是否关注用户")
+    @ApiImplicitParam(name = "id", value = "被关注的用户id", dataTypeClass = String.class, required = true)
+    @GetMapping("interest/{id}")
+    public ResultVO isInterest(@PathVariable String id) {
+        boolean interest = interestUserService.isInterest(id);
+        return ResultVO.ok(interest);
     }
+
+
+    @ApiOperation("关注用户")
+    @ApiImplicitParam(name = "id", value = "被关注的用户id", dataTypeClass = String.class, required = true)
+    @PostMapping("interest/{id}")
+    public ResultVO interestUser(@PathVariable String id) {
+        boolean isInterest = userService.interestUser(id);
+        return ResultVO.ok(isInterest);
+    }
+
+    @ApiOperation("获取关注的用户")
+    @GetMapping("interest")
+    public ResultVO getInterestUser(){
+        List interestUser = interestUserService.getInterestUser();
+        return ResultVO.ok(interestUser);
+    }
+
 }

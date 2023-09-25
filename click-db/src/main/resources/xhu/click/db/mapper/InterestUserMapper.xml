@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xhu.click.db.mapper.InterestUserMapper">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="xhu.click.db.entity.pojo.InterestUser">
+        <id column="user_id" property="userId" />
+        <result column="interest_user_id" property="interestUserId" />
+        <result column="add_time" property="addTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id, interest_user_id, add_time
+    </sql>
+
+    <select id="listInterestUser" resultMap="xhu.click.db.mapper.UserMapper.BaseResultMap">
+        select * from campus_user where id in (select interest_user_id from campus_interest_user where user_id=#{id})
+    </select>
+
+</mapper>

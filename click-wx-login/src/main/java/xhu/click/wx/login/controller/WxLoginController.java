@@ -18,6 +18,7 @@ import xhu.click.common.entity.pojo.ResultVO;
 import xhu.click.common.exception.BusinessException;
 import xhu.click.common.utils.JwtUtil;
 import xhu.click.common.utils.RedisIdWorker;
+import xhu.click.common.utils.SnowIdWorker;
 import xhu.click.db.entity.dto.UserDto;
 import xhu.click.db.entity.pojo.User;
 import xhu.click.db.service.IUserService;
@@ -25,7 +26,6 @@ import xhu.click.wx.login.entity.constrants.Constants;
 import xhu.click.wx.login.entity.pojo.WxResponse;
 import xhu.click.wx.login.service.WxLoginService;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -46,13 +46,16 @@ public class WxLoginController {
     @Autowired
     IUserService userService;
 
+//    @Autowired
+//    RedisIdWorker redisIdWorker;
+
     @Autowired
-    RedisIdWorker redisIdWorker;
+    SnowIdWorker snowIdWorker;
 
     @ApiOperation("通过微信code获取token")
     @ApiImplicitParam(name = "code",value = "login码",required = true,dataTypeClass = String.class)
     @PostMapping("login")
-    public ResultVO getCode(@NotNull String code) {
+    public ResultVO getCode( String code) {
         if(code==null){
             throw new BusinessException(ResultCode.ERROR);
         }
@@ -69,7 +72,8 @@ public class WxLoginController {
             //        不存在则构建user并保存
             log.info("openid",wxResponse.getOpenid());
             user=new User();
-            user.setId(String.valueOf(redisIdWorker.nextId(RedisConstants.NEX_ID_PREFIX)));
+//            user.setId(String.valueOf(redisIdWorker.nextId(RedisConstants.NEX_ID_PREFIX)));
+            user.setId(String.valueOf(snowIdWorker.nextId()));
             user.setGender(0);
             user.setOpenid(wxResponse.getOpenid());
             user.setLastLoginTime(LocalDateTime.now());

@@ -32,7 +32,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
-    UserDto userDto = (UserDto) LocalHolder.getObject();
+
     /**
      * 通过postid获取评论id
      *
@@ -59,6 +59,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Override
     public boolean isLiked(Long id) {
+        UserDto userDto = (UserDto) LocalHolder.getObject();
         return stringRedisTemplate.opsForSet().isMember(RedisConstants.COMMENT_IS_LIKED + id, userDto.getId());
     }
 
@@ -71,6 +72,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Override
     public boolean likeComment(Long id) {
+        UserDto userDto = (UserDto) LocalHolder.getObject();
         boolean liked = isLiked(id);
         String key = RedisConstants.COMMENT_IS_LIKED + id;
         //已经点赞

@@ -14,7 +14,6 @@ import xhu.click.file.service.MinioService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotNull;
 
 @Api(tags = "文件")
 @RestController
@@ -28,7 +27,7 @@ public class FileController {
     @ApiOperation("文件上传")
     @ApiImplicitParam(name = "file",value = "文件，multipartFile",dataTypeClass = MultipartFile.class)
     @PostMapping
-    public ResultVO upload(@NotNull MultipartFile file) throws Exception {
+    public ResultVO upload( MultipartFile file) throws Exception {
         // 上传
         String url = minioService.putObject(FilePathConstants.FILE_PATH,file);
         // 返回文件名

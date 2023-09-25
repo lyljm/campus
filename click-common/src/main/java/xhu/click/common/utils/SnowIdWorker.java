@@ -1,13 +1,16 @@
 package xhu.click.common.utils;
 
+import org.springframework.stereotype.Component;
+
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 
 //雪花算法代码实现
+@Component
 public class SnowIdWorker {
     // 时间起始标记点，作为基准，一般取系统的最近时间（一旦确定不能变动）
-    private final static long twepoch = 1288834974657L;
+    private final static long twepoch = 1695642758115L;
     // 机器标识位数
     private final static long workerIdBits = 5L;
     // 数据中心标识位数
@@ -57,7 +60,7 @@ public class SnowIdWorker {
 
     /**
      * 获取下一个ID
-     *
+     *  线程安全
      * @return
      */
     public synchronized long nextId() {

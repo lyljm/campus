@@ -37,10 +37,15 @@
         <artifactId>java-jwt</artifactId>
     </dependency>
 
-    <!--knif4j api        -->
+<!--    &lt;!&ndash;knif4j api        &ndash;&gt;-->
+<!--    <dependency>-->
+<!--        <groupId>com.github.xiaoymin</groupId>-->
+<!--        <artifactId>knife4j-spring-boot-starter</artifactId>-->
+<!--    </dependency>-->
+
     <dependency>
         <groupId>com.github.xiaoymin</groupId>
-        <artifactId>knife4j-spring-boot-starter</artifactId>
+        <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
     </dependency>
 
 <!--    junit-->

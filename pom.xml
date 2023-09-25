@@ -36,7 +36,7 @@
         <spring.boot.version>2.7.14</spring.boot.version>
         <!-- Web 相关 -->
         <springdoc.version>1.7.0</springdoc.version>
-        <knife4j.version>3.0.3</knife4j.version>
+        <knife4j.version>4.3.0</knife4j.version>
         <servlet.versoin>2.5</servlet.versoin>
         <!-- DB 相关 -->
         <druid.version>1.2.18</druid.version>
@@ -195,12 +195,20 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
-            <!--            knife4j-->
+<!--            &lt;!&ndash;            knife4j&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.github.xiaoymin</groupId>-->
+<!--                <artifactId>knife4j-spring-boot-starter</artifactId>-->
+<!--                <version>${knife4j.version}</version>-->
+<!--            </dependency>-->
+
+            <!--引入Knife4j的官方start包,该指南选择Spring Boot版本<3.0,开发者需要注意-->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
+
 
             <!-- MinIO SDK-->
             <dependency>

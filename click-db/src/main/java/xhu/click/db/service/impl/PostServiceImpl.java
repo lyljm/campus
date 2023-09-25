@@ -71,7 +71,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
     @Autowired
     MinioConfig minioConfig;
 
-    UserDto userDto = (UserDto) LocalHolder.getObject();
+
 
     /**
      * 获取图文
@@ -85,18 +85,22 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
     @Override
     public PageResult getPostPage(int cur, int size, int subject, int strategy) {
         QueryWrapper<Post> lambdaQueryWrapper = new QueryWrapper<>();
-        lambdaQueryWrapper.eq("subject_id", subject);
+        // 主页推荐，获取所有类
+        if(subject!=-1){
+            lambdaQueryWrapper.eq("subject_id", subject);
+        }
 //        已发布
         lambdaQueryWrapper.eq("status", PostStatus.POSTED.getStatus());
         /**
          *  排序策略
          */
         if (strategy == PostStrategy.LATEST.getStatus()) {
-            lambdaQueryWrapper.orderByAsc("add_time");
-        } else if (strategy == PostStrategy.Hottest.getStatus()) {
-            lambdaQueryWrapper.orderByDesc("liked");
+            lambdaQueryWrapper.orderByDesc("add_time");
         } else if (strategy == PostStrategy.RESENT_REPLY.getStatus()) {
             lambdaQueryWrapper.orderByDesc("update_time");
+        } else{
+//            strategy == PostStrategy.Hottest.getStatus()
+            lambdaQueryWrapper.orderByDesc("liked");
         }
 //        分页查询
         PageHelper.startPage(cur, size);
@@ -150,6 +154,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
      */
     @Override
     public boolean isLiked(Long id) {
+        UserDto userDto = (UserDto) LocalHolder.getObject();
         // 判断是否点赞
         Double score = stringRedisTemplate.opsForZSet().score(RedisConstants.POST_IS_LIKED + id, userDto.getId());
         // 如果有记录,返回结果
@@ -171,6 +176,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
 
     @Override
     public boolean likedPost(Long id) {
+        UserDto userDto = (UserDto) LocalHolder.getObject();
         boolean liked = isLiked(id);
         String key = RedisConstants.POST_IS_LIKED + id;
         //已经点赞
@@ -189,17 +195,21 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
 
     @Override
     public boolean uploadPost(PostDto dto, MultipartFile[] files) {
-        List<String> list = minioService.uploadPhotos(FilePathConstants.POST_PATH,files);
-        Post post = BeanUtil.copyProperties(dto, Post.class);
-        post.setPhotoUrl(list.stream().collect(Collectors.joining(",")));
-        //获取当前用户
         UserDto user = (UserDto) LocalHolder.getObject();
+        Post post = BeanUtil.copyProperties(dto, Post.class);
         post.setUserId(user.getId());
+        if(files!=null){
+            List<String> list = minioService.uploadPhotos(FilePathConstants.POST_PATH,files);
+            post.setPhotoUrl(list.stream().collect(Collectors.joining(",")));
+        }else {
+            post.setPhotoUrl("");
+        }
         return this.save(post);
     }
 
     @Override
     public boolean isCollect(Long id) {
+        UserDto userDto = (UserDto) LocalHolder.getObject();
         // 判断是否点赞
         Double score = stringRedisTemplate.opsForZSet().score(RedisConstants.POST_IS_COLLECT + id, userDto.getId());
         // 如果有记录,返回结果
@@ -221,6 +231,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
 
     @Override
     public boolean collectPost(Long id) {
+        UserDto userDto = (UserDto) LocalHolder.getObject();
         boolean collect = isCollect(id);
         String key = RedisConstants.POST_IS_COLLECT + id;
         //已经点赞

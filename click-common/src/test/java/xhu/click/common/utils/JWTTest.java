@@ -20,4 +20,12 @@ public class JWTTest {
         String s1 = Base64Decoder.decodeStr((CharSequence) verify);
         System.out.println(s1);
     }
+    @Test
+    public void testSnowWorker(){
+        System.out.println(System.currentTimeMillis());
+        SnowIdWorker idWorker=new SnowIdWorker(0,0);
+        for(int i=0;i<100;i++){
+            System.out.println(idWorker.nextId());
+        }
+    }
 }

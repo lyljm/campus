@@ -32,12 +32,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!--knif4j api        -->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-        </dependency>
-
         <!--fastjson-->
         <dependency>
             <groupId>com.alibaba</groupId>

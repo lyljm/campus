@@ -14,7 +14,6 @@ import xhu.click.common.utils.thread.LocalHolder;
 import xhu.click.db.entity.dto.UserDto;
 import xhu.click.db.service.ICommentService;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +28,7 @@ public class CommentController {
     @ApiOperation("获取图文的所有的评论")
     @GetMapping("all/{id}")
     @ApiImplicitParam(name = "id",value = "图文的id",dataTypeClass = Long.class)
-    ResultVO<Map> commentPost(@NotNull @PathVariable Long id){
+    ResultVO<Map> commentPost( @PathVariable Long id){
         Map commentById = commentService.getCommentById(id);
         return ResultVO.ok(commentById);
     }
@@ -38,7 +37,7 @@ public class CommentController {
     @ApiOperation("判断用户是否点赞某评论")
     @ApiImplicitParam(name = "id",value = "评论的id",required = true,dataTypeClass = Long.class)
     @GetMapping("isliked/{id}")
-    ResultVO<Integer> isLiked(@NotNull@PathVariable Long id){
+    ResultVO<Integer> isLiked(@PathVariable Long id){
         boolean liked = commentService.isLiked(id);
         return ResultVO.ok(liked);
     }
@@ -47,7 +46,7 @@ public class CommentController {
     @ApiOperation("点赞评论某评论")
     @ApiImplicitParam(name = "id",value = "评论的id",required = true,dataTypeClass = Long.class)
     @GetMapping("liked/{id}")
-    ResultVO<Integer> likeComment(@NotNull @PathVariable Long id){
+    ResultVO<Integer> likeComment(@PathVariable Long id){
         boolean liked = commentService.likeComment(id);
         if(!liked){
             return ResultVO.ok(0);
